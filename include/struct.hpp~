@@ -1,0 +1,14 @@
+#ifndef STRUCT_HPP_
+#define STRUCT_HPP_
+
+struct snake{
+  int x;
+  int y;
+}s;
+
+struct fruit
+{
+  int  x, y;
+}f;
+
+#endif /*"STRUCT_HPP"*/
