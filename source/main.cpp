@@ -14,7 +14,7 @@ int		main()
   fruit.setFillColor(sf::Color::Red);
   fruit.setPosition(300,100);
   sf::Clock timer;
-  window.setFramerateLimit(100);
+  window.setFramerateLimit(10);
   int var = 1;
   int size = 3;
   int size_snk = 20;//taille du snake
