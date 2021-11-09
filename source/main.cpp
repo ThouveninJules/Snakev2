@@ -16,6 +16,8 @@ int		main()
   window.setFramerateLimit(10);
   int var = 1;
   int size = 2;
+  int speed = 10;
+  int score = 0;
   int size_snk = 20;//taille du snake
   srand(time(NULL));
 
@@ -40,9 +42,9 @@ int		main()
 	    }
 	} 
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& var != 2){var = 0;}
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)&& var != 3){var = 1;}
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)&& var != 0){var = 2;}
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&& var != 1){ var = 3;}
+      else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)&& var != 3){var = 1;}
+      else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)&& var != 0){var = 2;}
+      else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&& var != 1){ var = 3;}
 
       if (var == 0)
 	{
@@ -78,11 +80,37 @@ int		main()
 	  f.y = rand()% (500/size_snk);
 	  f.x = f.x*size_snk;
 	  f.y = f.y*size_snk;
+
+	  //score
+	  score++;
+	  
+	  //vitesse +1 tous les 5 points
+	  if(score % 5 == 0)
+	    {
+	      speed++;
+	      window.setFramerateLimit(speed);
+	    }
+
+	  //position du fruit
 	  fruit.setPosition(f.x, f.y);
+
+	  //vérification de f par rapport à s
+	  for(int i = 0; i < size; i++)
+	    {
+	      if(s[i].x == f.x && s[i].y == f.y)
+		{
+		  f.x = rand()% (500/size_snk);
+		  f.y = rand()% (500/size_snk);
+		  f.x = f.x*size_snk;
+		  f.y = f.y*size_snk;
+		  fruit.setPosition(f.x, f.y);
+		}
+	    }
 	}
       //Collision Serpent Mur
       if(s[0].x == 500 || s[0].x < 0 || s[0].y == 500 || s[0].y < 0)
 	{
+	  printf("Votre score est : %d\n", score);
 	  window.close();
 	}
       // Collision tete corps
@@ -91,8 +119,9 @@ int		main()
 	{
 	  if (s[0].x == s[i].x && s[0].y == s[i].y)
 	    {
-	      // window.close();
-	      printf("contact !");
+	      printf("Votre score est : %d\n", score);
+	      window.close();
+	      //printf("contact !");
 	    }
 	}
       
