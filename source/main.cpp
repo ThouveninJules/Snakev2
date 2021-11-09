@@ -85,9 +85,9 @@ int		main()
 	{
 	  window.close();
 	}
-      // Collision tete corp
+      // Collision tete corps
 
-      for(int i = 1; i < size; i++)
+      for(int i = 2; i < size; i++)
 	{
 	  if (s[0].x == s[i].x && s[0].y == s[i].y)
 	    {

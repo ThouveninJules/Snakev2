@@ -8,15 +8,14 @@ int		main()
 
   sf::RenderWindow window(sf::VideoMode(500,500),"SFML rks");
   sf::RectangleShape snake(sf::Vector2f(20,20));
-  snake.setPosition(0,0);
+  snake.setPosition(250,250);
   snake.setFillColor(sf::Color::Green);
   sf::RectangleShape fruit(sf::Vector2f(20,20));
   fruit.setFillColor(sf::Color::Red);
   fruit.setPosition(300,100);
-  sf::Clock timer;
-  window.setFramerateLimit(100);
+  window.setFramerateLimit(10);
   int var = 1;
-  int size = 3;
+  int size = 2;
   int size_snk = 20;//taille du snake
   srand(time(NULL));
 
@@ -26,6 +25,7 @@ int		main()
 
   s[0].x = 0;
   s[0].y = 0;
+  
   f.x = 300;
   f.y = 100;
   while(window.isOpen())
@@ -39,10 +39,10 @@ int		main()
 	      window.close();
 	    }
 	} 
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){var = 0;}
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){var = 1;}
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){var = 2;}
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){ var = 3;}
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& var != 2){var = 0;}
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)&& var != 3){var = 1;}
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)&& var != 0){var = 2;}
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&& var != 1){ var = 3;}
 
       if (var == 0)
 	{
@@ -72,7 +72,6 @@ int		main()
 	}
 
       // Snake mange la pomme 
-      printf("f.x = %d & f.y = %d\n", f.x, f.y);
       if(s[0].x == f.x && s[0].y == f.y )	{
 	  size++;
 	  f.x = rand()% (500/size_snk);
@@ -81,6 +80,22 @@ int		main()
 	  f.y = f.y*size_snk;
 	  fruit.setPosition(f.x, f.y);
 	}
+      //Collision Serpent Mur
+      if(s[0].x == 500 || s[0].x < 0 || s[0].y == 500 || s[0].y < 0)
+	{
+	  window.close();
+	}
+      // Collision tete corp
+
+      for(int i = 1; i < size; i++)
+	{
+	  if (s[0].x == s[i].x && s[0].y == s[i].y)
+	    {
+	      // window.close();
+	      printf("contact !");
+	    }
+	}
+      
       // déplacement du serpent
       window.clear();
       for (int i = 0 ; i < size ; i++)
