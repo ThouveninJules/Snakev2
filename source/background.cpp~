@@ -1,0 +1,16 @@
+#include <SFML/Graphics.hpp>
+#include <cstdlib>
+
+
+void background()
+{
+  sf::Texture texture;
+  if(!texture.loadFromFile("images/mariodrip.png"))
+    {
+      printf("erreur de chargement d'image ! \n");
+      system("pause");
+    }
+  sf::Sprite sprite;
+  sprite.setTexture(texture);
+  sprite.setTextureRect(sf::IntRect(150,150,500,500));
+}

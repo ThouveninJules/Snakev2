@@ -6,16 +6,16 @@ NAME	:=	snake
 
 SRC	:=	./source/*.cpp
 
+INCL    :=      ./include/*.hpp
+
 LFLAGS	:=	-lsfml-graphics -lsfml-window -lsfml-system 
 
 OBJ	:=	$(SRC:.cpp=.o)
 
-INC	:= 	$(SRC:.hpp=.o)
-
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-		$(CC)  -o $(NAME) $(OBJ) $(INC)  $(LFLAGS)
+		$(CC)  -o $(NAME) $(OBJ) $(INCL)  $(LFLAGS)
 clean:
 	$(RM) $(OBJ) 
 
