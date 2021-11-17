@@ -19,6 +19,7 @@ int		main()
   int size = 2;
   int speed = 10;
   int score = 0;
+  int pause = 0;
   int size_snk = 20;//taille du snake
   srand(time(NULL));
   bool mort = false;
@@ -67,7 +68,62 @@ int		main()
 	      window.close();
 	    }
 	}
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& var != 2){var = 0;}
+
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+	  pause=0;
+	  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+	    {
+	      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && pause != 1)
+		{
+		  //printf("pause = 1");
+		  pause = 1;
+		}
+	      else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && pause != 0)
+		{
+		  //printf("pause = 0");
+		  pause = 0;
+	        }
+	      
+	      switch(pause)
+		{
+		case 0 :
+		  //printf("img cont 0");
+		  texture.loadFromFile("images/menu_pause_cont.png");
+		  break; 
+		case 1 :
+		  //printf("img quit 1");
+		  texture.loadFromFile("images/menu_pause_quit.png");
+		  break;
+		default :
+		  //printf("img cont def");
+		  texture.loadFromFile("images/menu_pause_cont.png");
+		  break;
+		}
+	      sprite.setTexture(texture);
+	      sprite.setTextureRect(sf::IntRect(0,0,500,500));
+	      window.clear();
+	      window.draw(sprite);
+	      window.display();
+	    }
+	  switch(pause)
+	    {
+	    case 0 :
+	      texture.loadFromFile("images/mariodrip.png");
+	      sprite.setTexture(texture);
+	      sprite.setTextureRect(sf::IntRect(150,150,500,500));
+	      break;
+	    case 1 :
+	      window.close();
+	      break;
+	    default :
+	      texture.loadFromFile("images/mariodrip.png");
+	      sprite.setTexture(texture);
+	      sprite.setTextureRect(sf::IntRect(150,150,500,500));
+	      break;
+	    }
+	}
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& var != 2){var = 0;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)&& var != 3){var = 1;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)&& var != 0){var = 2;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&& var != 1){ var = 3;}
