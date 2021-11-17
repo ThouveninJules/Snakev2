@@ -34,9 +34,19 @@ int		main()
   f.x = 300;
   f.y = 100;
 
-  song1.openFromFile("audio/marioDripSong.ogg");
-  song1.setVolume(50);
-  song1.play();
+  if(!song1.openFromFile("./audio/marioDripSong.ogg"))
+    {
+      printf("La musique ne marche pas\n");
+      return -1;
+    }
+  else
+    {
+      song1.setVolume(50);
+      song1.setLoop(true);
+      song1.play();
+      printf("La musique marche\n%d\n", song1.getStatus());
+
+    }
   
   if(!texture.loadFromFile("images/mariodrip.png"))
     {
