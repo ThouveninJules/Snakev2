@@ -11,8 +11,7 @@ int		main()
   sf::RectangleShape snake(sf::Vector2f(20,20));
   snake.setPosition(250,250);
   snake.setFillColor(sf::Color::Green);
-  sf::RectangleShape fruit(sf::Vector2f(20,20));
-  fruit.setFillColor(sf::Color::Red);
+  sf::Sprite fruit;
   fruit.setPosition(300,100);
   window.setFramerateLimit(10);
   int var = 1;
@@ -23,7 +22,7 @@ int		main()
   int size_snk = 20;//taille du snake
   srand(time(NULL));
   bool mort = false;
-  sf::Texture texture;
+  sf::Texture texture, textureFruit;
   sf::Music song1;
   
   struct snake	       s[100];
@@ -34,7 +33,15 @@ int		main()
   
   f.x = 300;
   f.y = 100;
-
+  
+  if(!textureFruit.loadFromFile("./images/champi.png"))
+    {
+      printf("L'image  ne marche pas\n");
+      return -1;
+    }
+  fruit.setTexture(textureFruit);
+  fruit.setScale(sf::Vector2f(1,1));
+  
   if(!song1.openFromFile("./audio/marioDripSong.ogg"))
     {
       printf("La musique ne marche pas\n");
@@ -68,7 +75,7 @@ int		main()
 	      window.close();
 	    }
 	}
-
+      // GESTION MENU
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 	{
 	  pause=0;
@@ -123,7 +130,9 @@ int		main()
 	      break;
 	    }
 	}
-	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& var != 2){var = 0;}
+      // FIN GESTION MENU
+
+      else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& var != 2){var = 0;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)&& var != 3){var = 1;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)&& var != 0){var = 2;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&& var != 1){ var = 3;}
