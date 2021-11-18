@@ -1,0 +1,7 @@
+#ifndef CHECKSCORE_HPP__
+#define CHECKSCORE_HPP__
+
+void CheckScore(Sprite *sprite, Texture *texture, int score);
+
+
+#endif

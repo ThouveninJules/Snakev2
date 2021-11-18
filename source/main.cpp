@@ -4,6 +4,8 @@
 #include <SFML/Window.hpp>
 #include <cstdlib>
 #include "../include/main.hpp"
+#include "../include/checkScore.hpp"
+
 
 int		main()
 {
@@ -19,7 +21,7 @@ int		main()
   int var = 1;
   int size = 2;
   int speed = 10;
-  int score = 0;
+  int score = 15;
   int pause = 0;
   int debut = 0;
   char aff[50]="";
@@ -88,6 +90,7 @@ int		main()
 	      window.close();
 	    }
 	}
+      CheckScore(&sprite, &texture,score);
       // GESTION MENU
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || debut == 0)
 	{
@@ -130,17 +133,19 @@ int		main()
 	  switch(pause)
 	    {
 	    case 0 :
-	      texture.loadFromFile("images/mariodrip.png");
-	      sprite.setTexture(texture);
-	      sprite.setTextureRect(sf::IntRect(150,150,500,500));
+	      CheckScore(&sprite, &texture,score);
+	      //texture.loadFromFile("images/mariodrip.png");
+	      //sprite.setTexture(texture);
+	      //sprite.setTextureRect(sf::IntRect(150,150,500,500));
 	      break;
 	    case 1 :
 	      window.close();
 	      break;
 	    default :
-	      texture.loadFromFile("images/mariodrip.png");
-	      sprite.setTexture(texture);
-	      sprite.setTextureRect(sf::IntRect(150,150,500,500));
+	      CheckScore(&sprite,&texture,score);
+	      //texture.loadFromFile("images/mariodrip.png");
+	      //sprite.setTexture(texture);
+	      //sprite.setTextureRect(sf::IntRect(150,150,500,500));
 	      break;
 	    }
 	}
