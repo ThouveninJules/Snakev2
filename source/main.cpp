@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 #include <cstdlib>
 #include "../include/main.hpp"
 
@@ -7,7 +9,7 @@ int		main()
 {
   
 
-  sf::RenderWindow window(sf::VideoMode(500,500),"SFML rks");
+  sf::RenderWindow window(sf::VideoMode(500,550),"SFML rks");
   sf::RectangleShape snake(sf::Vector2f(20,20));
   snake.setPosition(250,250);
   snake.setFillColor(sf::Color::Green);
@@ -19,11 +21,20 @@ int		main()
   int speed = 10;
   int score = 0;
   int pause = 0;
+  int debut = 0;
   int size_snk = 20;//taille du snake
   srand(time(NULL));
   bool mort = false;
   sf::Texture texture, textureFruit;
   sf::Music song1;
+  sf::Text text;
+  sf::Font font;
+  font.loadFromFile("include/arial.ttf");
+  text.setString("Score : " + score);
+  text.setFont(font);
+  text.setCharacterSize(50);
+  text.setFillColor(sf::Color::White);
+  text.setPosition(5,495);
   
   struct snake	       s[100];
   struct food	       f;
@@ -76,9 +87,10 @@ int		main()
 	    }
 	}
       // GESTION MENU
-      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || debut == 0)
 	{
 	  pause=0;
+	  debut=1;
 	  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 	    {
 	      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && pause != 1)
@@ -219,23 +231,24 @@ int		main()
 	}
       
       // déplacement du serpent
-	  window.clear();
-	  window.draw(sprite);
-	  for (int i = 0 ; i < size ; i++)
-	    {
+      text.setString("Score : " + score);
+      window.clear();
+      window.draw(sprite);
+      window.draw(text);
+      if (mort == true)
+	{
+	  printf("vous avez perdu \n");
+	  printf("Votre score est : %d\n", score);
+	  window.close(); 
+	}
+      for (int i = 0 ; i < size ; i++)
+	{
 	      
-	      snake.setPosition(s[i].x , s[i].y);
-	      window.draw(fruit);
-	      window.draw(snake);
-	    }
-	  window.display();
-
-	  if (mort == true)
-	    {
-	      printf("vous avez perdu \n");
-	      printf("Votre score est : %d\n", score);
-	      window.close(); 
-	    }	  
+	  snake.setPosition(s[i].x , s[i].y);
+	  window.draw(fruit);
+	  window.draw(snake);
+	}
+      window.display();	  
     }
   return (0);
 }
