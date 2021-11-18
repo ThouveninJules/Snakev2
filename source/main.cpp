@@ -22,6 +22,7 @@ int		main()
   int score = 0;
   int pause = 0;
   int debut = 0;
+  char aff[50]="";
   int size_snk = 20;//taille du snake
   srand(time(NULL));
   bool mort = false;
@@ -30,7 +31,8 @@ int		main()
   sf::Text text;
   sf::Font font;
   font.loadFromFile("include/arial.ttf");
-  text.setString("Score : " + score);
+  sprintf(aff, "Score : %d", score);
+  text.setString(aff);
   text.setFont(font);
   text.setCharacterSize(50);
   text.setFillColor(sf::Color::White);
@@ -231,7 +233,8 @@ int		main()
 	}
       
       // déplacement du serpent
-      text.setString("Score : " + score);
+      sprintf(aff, "Score : %d", score);
+      text.setString(aff);
       window.clear();
       window.draw(sprite);
       window.draw(text);
