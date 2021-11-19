@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 
-void CheckScore(Sprite *sprite, Texture *texture,int score)
+void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score)
 {
   if(score>20)
     {

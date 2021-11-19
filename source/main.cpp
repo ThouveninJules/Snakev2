@@ -22,23 +22,32 @@ int		main()
   int size = 2;
   int speed = 10;
   int score = 15;
+  int objectif = 20;
   int pause = 0;
   int debut = 0;
   char aff[50]="";
+  char off[50]="";
   int size_snk = 20;//taille du snake
   srand(time(NULL));
   bool mort = false;
   sf::Texture texture, textureFruit;
   sf::Music song1;
   sf::Text text;
+  sf::Text obj;
   sf::Font font;
   font.loadFromFile("include/arial.ttf");
   sprintf(aff, "Score : %d", score);
   text.setString(aff);
   text.setFont(font);
-  text.setCharacterSize(50);
+  text.setCharacterSize(45);
   text.setFillColor(sf::Color::White);
   text.setPosition(5,495);
+  sprintf(off, "Objectif : %d", objectif);
+  obj.setString(off);
+  obj.setFont(font);
+  obj.setCharacterSize(45);
+  obj.setFillColor(sf::Color::White);
+  obj.setPosition(255,495);
   
   struct snake	       s[100];
   struct food	       f;
@@ -90,50 +99,68 @@ int		main()
 	      window.close();
 	    }
 	}
-      CheckScore(&sprite, &texture,score);
+      CheckScore(&sprite, &texture,score, &objectif);
       // GESTION MENU
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || debut == 0)
 	{
-	  pause=0;
-	  debut=1;
+	  if(debut == 0)
+	    {
+	      pause = 2;
+	      debut = 1;
+	    }else{
+	    pause = 0;
+	  }
 	  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
 	    {
-	      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && pause != 1)
+	      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && pause != 1 && pause !=3)
 		{
 		  //printf("pause = 1");
-		  pause = 1;
+		  pause++;
 		}
-	      else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && pause != 0)
+	      else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && pause != 0 && pause != 2)
 		{
 		  //printf("pause = 0");
-		  pause = 0;
+		  pause--;
 	        }
+	      
+	      window.clear();
 	      
 	      switch(pause)
 		{
 		case 0 :
 		  //printf("img cont 0");
 		  texture.loadFromFile("images/menu_pause_cont.png");
+		  window.draw(text);
+		  window.draw(obj);
 		  break; 
 		case 1 :
 		  //printf("img quit 1");
 		  texture.loadFromFile("images/menu_pause_quit.png");
+		  window.draw(text);
+		  window.draw(obj);
+		  break;
+	        case 2 :
+		  //printf("img comm 2");
+		  texture.loadFromFile("images/menu_deb_comm.png");
+		  break;
+		case 3 :
+		  //printf("img quit 3");
+		  texture.loadFromFile("images/menu_deb_quit.png");
 		  break;
 		default :
 		  //printf("img cont def");
-		  texture.loadFromFile("images/menu_pause_cont.png");
+		  texture.loadFromFile("images/menu_deb_comm.png");
 		  break;
 		}
 	      sprite.setTexture(texture);
 	      sprite.setTextureRect(sf::IntRect(0,0,500,500));
-	      window.clear();
 	      window.draw(sprite);
 	      window.display();
 	    }
 	  switch(pause)
 	    {
 	    case 0 :
-	      CheckScore(&sprite, &texture,score);
+	      CheckScore(&sprite, &texture, score, &objectif);
 	      //texture.loadFromFile("images/mariodrip.png");
 	      //sprite.setTexture(texture);
 	      //sprite.setTextureRect(sf::IntRect(150,150,500,500));
@@ -141,8 +168,14 @@ int		main()
 	    case 1 :
 	      window.close();
 	      break;
+	    case 2 :
+	      CheckScore(&sprite, &texture, score, &objectif);
+	      break;
+	    case 3 :
+	      window.close();
+	      break;
 	    default :
-	      CheckScore(&sprite,&texture,score);
+	      CheckScore(&sprite,&texture,score, &objectif);
 	      //texture.loadFromFile("images/mariodrip.png");
 	      //sprite.setTexture(texture);
 	      //sprite.setTextureRect(sf::IntRect(150,150,500,500));
@@ -240,9 +273,12 @@ int		main()
       // déplacement du serpent
       sprintf(aff, "Score : %d", score);
       text.setString(aff);
+      sprintf(off, "Objectif : %d", objectif);
+      obj.setString(off);
       window.clear();
       window.draw(sprite);
       window.draw(text);
+      window.draw(obj);
       if (mort == true)
 	{
 	  printf("vous avez perdu \n");

@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 
-void CheckScore(sf::Sprite *sprite,sf::Texture *texture, int score);
+void CheckScore(sf::Sprite *sprite,sf::Texture *texture, int score, int *objectif);
 
 
 #endif
