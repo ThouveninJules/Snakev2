@@ -21,7 +21,7 @@ int		main()
   int var = 1;
   int size = 2;
   int speed = 10;
-  int score = 15;
+  int score = 18;
   int objectif = 20;
   int pause = 0;
   int debut = 0;
@@ -32,6 +32,7 @@ int		main()
   bool mort = false;
   sf::Texture texture, textureFruit;
   sf::Music song1;
+  sf::Sprite sprite; 
   sf::Text text;
   sf::Text obj;
   sf::Font font;
@@ -79,15 +80,6 @@ int		main()
       printf("La musique marche\n%d\n", song1.getStatus());
 
     }
-  
-  if(!texture.loadFromFile("images/mariodrip.png"))
-    {
-      printf("erreur de chargement d'image ! \n");
-      system("pause");
-    }
-  sf::Sprite sprite;
-  sprite.setTexture(texture);
-  sprite.setTextureRect(sf::IntRect(150,150,500,500));
   while(window.isOpen())
     {
       
