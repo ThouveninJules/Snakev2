@@ -14,7 +14,7 @@ void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif
       sprite->setTexture(*texture);
       *objectif=40;
     }
-  else if(score==100)
+  else if(score==40)
     { 
       texture->loadFromFile("images/LVL3.jpg");
       sprite->setTexture(*texture);

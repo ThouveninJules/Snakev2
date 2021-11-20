@@ -12,9 +12,8 @@ int		main()
   
 
   sf::RenderWindow window(sf::VideoMode(500,550),"SFML rks");
-  sf::RectangleShape snake(sf::Vector2f(20,20));
+  sf::Sprite snake;
   snake.setPosition(250,250);
-  snake.setFillColor(sf::Color::Green);
   sf::Sprite fruit;
   fruit.setPosition(300,100);
   window.setFramerateLimit(10);
@@ -30,7 +29,7 @@ int		main()
   int size_snk = 20;//taille du snake
   srand(time(NULL));
   bool mort = false;
-  sf::Texture texture, textureFruit;
+  sf::Texture texture, textureFruit, textureHead;
   sf::Music song1;
   sf::Sprite sprite; 
   sf::Text text;
@@ -58,7 +57,15 @@ int		main()
   
   f.x = 300;
   f.y = 100;
-  
+
+  if(!textureHead.loadFromFile("./images/champi.png"))
+    {
+      printf("L'image  ne marche pas\n");
+      return -1;
+    }
+  snake.setTexture(textureHead);
+  snake.setScale(sf::Vector2f(1,1));
+
   if(!textureFruit.loadFromFile("./images/champi.png"))
     {
       printf("L'image  ne marche pas\n");
@@ -183,21 +190,29 @@ int		main()
       
       if (var == 0)
 	{
+	  textureHead.loadFromFile("images/luigi.png");
+	  snake.setTexture(textureHead);
 	  snake.move(0,-size_snk);
 	  s[0].y = s[0].y - size_snk;
 	}
       if (var == 1)
 	{
+	  textureHead.loadFromFile("images/luigiDrt.png");
+          snake.setTexture(textureHead);
 	  snake.move(size_snk,0);
 	  s[0].x = s[0].x + size_snk;
 	}
       if (var == 3)
 	{
+	  textureHead.loadFromFile("images/luigiGch.png");
+          snake.setTexture(textureHead);
 	  snake.move(-size_snk,0);
 	  s[0].x = s[0].x - size_snk;
 	}
       if (var == 2)
 	{
+	  textureHead.loadFromFile("images/luigiBas.png");
+          snake.setTexture(textureHead);
 	  snake.move(0,size_snk);
 	  s[0].y = s[0].y + size_snk;
 	}
