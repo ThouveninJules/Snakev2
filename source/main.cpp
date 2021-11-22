@@ -11,7 +11,7 @@ int		main()
 {
   
 
-  sf::RenderWindow window(sf::VideoMode(500,550),"SFML rks");
+  sf::RenderWindow window(sf::VideoMode(500,550),"LUIGI KART DELUXE TAH LES ANCIENS");
   sf::Sprite snake;
   snake.setPosition(250,250);
   sf::Sprite fruit;
@@ -20,7 +20,7 @@ int		main()
   int var = 1;
   int size = 2;
   int speed = 10;
-  int score = 18;
+  int score = 0;
   int objectif = 20;
   int pause = 0;
   int debut = 0;
@@ -30,7 +30,7 @@ int		main()
   srand(time(NULL));
   bool mort = false;
   sf::Texture texture, textureFruit, textureHead;
-  sf::Music song1;
+  sf::Music song;
   sf::Sprite sprite; 
   sf::Text text;
   sf::Text obj;
@@ -74,19 +74,6 @@ int		main()
   fruit.setTexture(textureFruit);
   fruit.setScale(sf::Vector2f(1,1));
   
-  if(!song1.openFromFile("./audio/marioDripSong.ogg"))
-    {
-      printf("La musique ne marche pas\n");
-      return -1;
-    }
-  else
-    {
-      song1.setVolume(50);
-      song1.setLoop(true);
-      song1.play();
-      printf("La musique marche\n%d\n", song1.getStatus());
-
-    }
   while(window.isOpen())
     {
       
@@ -98,7 +85,11 @@ int		main()
 	      window.close();
 	    }
 	}
-      CheckScore(&sprite, &texture,score, &objectif);
+      CheckScore(&sprite, &texture,score, &objectif, &song);
+      song.setVolume(50);
+      song.setLoop(true);
+      song.play();
+
       // GESTION MENU
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || debut == 0)
 	{
@@ -159,25 +150,19 @@ int		main()
 	  switch(pause)
 	    {
 	    case 0 :
-	      CheckScore(&sprite, &texture, score, &objectif);
-	      //texture.loadFromFile("images/mariodrip.png");
-	      //sprite.setTexture(texture);
-	      //sprite.setTextureRect(sf::IntRect(150,150,500,500));
+	      CheckScore(&sprite, &texture, score, &objectif, &song);
 	      break;
 	    case 1 :
 	      window.close();
 	      break;
 	    case 2 :
-	      CheckScore(&sprite, &texture, score, &objectif);
+	      CheckScore(&sprite, &texture, score, &objectif, &song);
 	      break;
 	    case 3 :
 	      window.close();
 	      break;
 	    default :
-	      CheckScore(&sprite,&texture,score, &objectif);
-	      //texture.loadFromFile("images/mariodrip.png");
-	      //sprite.setTexture(texture);
-	      //sprite.setTextureRect(sf::IntRect(150,150,500,500));
+	      CheckScore(&sprite,&texture,score, &objectif, &song);
 	      break;
 	    }
 	}
