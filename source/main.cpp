@@ -73,6 +73,11 @@ int		main()
     }
   fruit.setTexture(textureFruit);
   fruit.setScale(sf::Vector2f(1,1));
+
+  CheckScore(&sprite, &texture,score, &objectif, &song, &debut);
+  song.setVolume(50);
+  song.setLoop(true);
+  //song.play();
   
   while(window.isOpen())
     {
@@ -85,10 +90,6 @@ int		main()
 	      window.close();
 	    }
 	}
-      CheckScore(&sprite, &texture,score, &objectif, &song);
-      song.setVolume(50);
-      song.setLoop(true);
-      song.play();
 
       // GESTION MENU
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || debut == 0)
@@ -150,28 +151,31 @@ int		main()
 	  switch(pause)
 	    {
 	    case 0 :
-	      CheckScore(&sprite, &texture, score, &objectif, &song);
+	      CheckScore(&sprite, &texture, score, &objectif, &song, &debut);
 	      break;
 	    case 1 :
 	      window.close();
 	      break;
 	    case 2 :
-	      CheckScore(&sprite, &texture, score, &objectif, &song);
+	      CheckScore(&sprite, &texture, score, &objectif, &song, &debut);
 	      break;
 	    case 3 :
 	      window.close();
 	      break;
 	    default :
-	      CheckScore(&sprite,&texture,score, &objectif, &song);
+	      CheckScore(&sprite,&texture,score, &objectif, &song, &debut);
 	      break;
 	    }
 	}
       // FIN GESTION MENU
 
+
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)&& var != 2){var = 0;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)&& var != 3){var = 1;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)&& var != 0){var = 2;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&& var != 1){ var = 3;}
+
+      CheckScore(&sprite,&texture,score, &objectif, &song, &debut);
       
       if (var == 0)
 	{
