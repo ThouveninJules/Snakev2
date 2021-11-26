@@ -40,7 +40,7 @@ void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif
       *objectif=40;
     }
   
-  else if(score==40)
+  else if(score<100)
     {
       if(*debut==3)
 	{
@@ -51,6 +51,7 @@ void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif
 	    }
 	  else
 	    {
+	      printf("le song fonctionne");
 	      song->play();
 	    }
 	}

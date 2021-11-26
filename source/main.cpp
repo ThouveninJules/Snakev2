@@ -260,9 +260,6 @@ int		main()
 	  if (s[0].x == s[i].x && s[0].y == s[i].y)
 	    {
 	      mort = true;
-	      //printf("Votre score est : %d\n", score);
-	      //window.close();
-	      //printf("contact !");
 	    }
 	}
       
@@ -275,11 +272,45 @@ int		main()
       window.draw(sprite);
       window.draw(text);
       window.draw(obj);
+
+      // Gestion Mort 
       if (mort == true)
 	{
+	  song.openFromFile("./audio/MusicMort.ogg");
+	  song.setLoop(false);
+	  song.setVolume(50);
+	  song.play();
 	  printf("vous avez perdu \n");
 	  printf("Votre score est : %d\n", score);
-	  window.close(); 
+
+	  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+	    {
+	      window.clear();
+	      texture.loadFromFile("./images/GameOver.png");
+	      sprite.setTexture(texture);
+	      window.draw(sprite);
+	      window.display();
+	      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+		  window.close();
+		}
+	    }
+	  CheckScore(&sprite,&texture,score, &objectif, &song, &debut);
+	  snake.setPosition(250,250);
+	  fruit.setPosition(300,100);
+	  var = 1;
+	  s[0].x = 0;
+	  s[0].y = 0;
+	  size = 2;
+	  speed = 10;
+	  score = 0;
+	  objectif = 20;
+	  pause = 0;
+	  debut = 0;
+	  f.x = 300;
+	  f.y = 100;
+	  size_snk = 20;
+	  mort = false;
 	}
       for (int i = 0 ; i < size ; i++)
 	{
@@ -299,7 +330,7 @@ int		main()
 		{
 		  if(!textureHead.loadFromFile("./images/luigiDrt.png"))
 		    {
-		      printf("L'image  ne marche pas\n");
+    		      printf("L'image  ne marche pas\n");
 		      return -1;
 		    }
 		  snake.setTexture(textureHead);
