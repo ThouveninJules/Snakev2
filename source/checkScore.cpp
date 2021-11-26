@@ -21,7 +21,7 @@ void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif
 	    }
 	}
     }
-  else if(score<40)
+  else if(score<40 && score>=20)
     {
       if(*debut==2)
 	{
@@ -40,7 +40,7 @@ void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif
       *objectif=40;
     }
   
-  else if(score<100)
+  else if(score<100 && score>=40)
     {
       if(*debut==3)
 	{
@@ -59,5 +59,25 @@ void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif
       sprite->setTexture(*texture);
 
       *objectif = 100;
+    }
+  else if(score>=100)
+    {
+      if(*debut==4)
+	{
+	  *debut = 5;
+	  if(!song->openFromFile("./audio/MusicLVL3.ogg"))
+	    {
+	      printf("La musique ne marche pas\n");
+	    }
+	  else
+	    {
+	      printf("le song fonctionne");
+	      song->play();
+	    }
+	}
+      texture->loadFromFile("images/LVL4.png");
+      sprite->setTexture(*texture);
+
+      *objectif = 625;
     }
 }

@@ -45,9 +45,9 @@ int		main()
   sprintf(off, "Objectif : %d", objectif);
   obj.setString(off);
   obj.setFont(font);
-  obj.setCharacterSize(45);
+  obj.setCharacterSize(40);
   obj.setFillColor(sf::Color::White);
-  obj.setPosition(255,495);
+  obj.setPosition(255,500);
   
   struct snake	       s[100];
   struct food	       f;
@@ -179,29 +179,29 @@ int		main()
       
       if (var == 0)
 	{
-	  textureHead.loadFromFile("images/luigi.png");
-	  snake.setTexture(textureHead);
+	  //textureHead.loadFromFile("images/luigi.png");
+	  //snake.setTexture(textureHead);
 	  snake.move(0,-size_snk);
 	  s[0].y = s[0].y - size_snk;
 	}
       if (var == 1)
 	{
-	  textureHead.loadFromFile("images/luigiDrt.png");
-          snake.setTexture(textureHead);
+	  //textureHead.loadFromFile("images/luigiDrt.png");
+          //snake.setTexture(textureHead);
 	  snake.move(size_snk,0);
 	  s[0].x = s[0].x + size_snk;
 	}
       if (var == 3)
 	{
-	  textureHead.loadFromFile("images/luigiGch.png");
-          snake.setTexture(textureHead);
+	  //textureHead.loadFromFile("images/luigiGch.png");
+          //snake.setTexture(textureHead);
 	  snake.move(-size_snk,0);
 	  s[0].x = s[0].x - size_snk;
 	}
       if (var == 2)
 	{
-	  textureHead.loadFromFile("images/luigiBas.png");
-          snake.setTexture(textureHead);
+	  //textureHead.loadFromFile("images/luigiBas.png");
+          //snake.setTexture(textureHead);
 	  snake.move(0,size_snk);
 	  s[0].y = s[0].y + size_snk;
 	}
@@ -312,89 +312,90 @@ int		main()
 	  size_snk = 20;
 	  mort = false;
 	}
-      for (int i = 0 ; i < size ; i++)
-	{
-	  if(i==0)
+	  for (int i = 0 ; i < size ; i++)
 	    {
-	      if(var==0)
+	      if(i==0)
 		{
-		  if(!textureHead.loadFromFile("./images/luigi.png"))
+		  if(var==0)
 		    {
-		      printf("L'image  ne marche pas\n");
-		      return -1;
+		      if(!textureHead.loadFromFile("./images/luigi.png"))
+			{
+			  printf("L'image  ne marche pas\n");
+			  return -1;
+			}
+		      snake.setTexture(textureHead);
+		      snake.setScale(sf::Vector2f(1,1));
 		    }
-		  snake.setTexture(textureHead);
-		  snake.setScale(sf::Vector2f(1,1));
+		  else if(var==1)
+		    {
+		      if(!textureHead.loadFromFile("./images/luigiDrt.png"))
+			{
+			  printf("L'image  ne marche pas\n");
+			  return -1;
+			}
+		      snake.setTexture(textureHead);
+		      snake.setScale(sf::Vector2f(1,1));
+		    }
+		  else if(var==2)
+		    {
+		      if(!textureHead.loadFromFile("./images/luigiBas.png"))
+			{
+			  printf("L'image  ne marche pas\n");
+			  return -1;
+			}
+		      snake.setTexture(textureHead);
+		      snake.setScale(sf::Vector2f(1,1));
+		    }
+		  else if(var==3)
+		    {
+		      if(!textureHead.loadFromFile("./images/luigiGch.png"))
+			{
+			  printf("L'image  ne marche pas\n");
+			  return -1;
+			}
+		      snake.setTexture(textureHead);
+		      snake.setScale(sf::Vector2f(1,1));
+		    }
 		}
-	      else if(var==1)
+	      else if(i==2)
 		{
-		  if(!textureHead.loadFromFile("./images/luigiDrt.png"))
+		  if(score<20)
 		    {
-    		      printf("L'image  ne marche pas\n");
-		      return -1;
+		      if(!textureHead.loadFromFile("./images/carapVrt.png"))
+			{
+			  printf("L'image  ne marche pas\n");
+			  return -1;
+			}
+		      snake.setTexture(textureHead);
+		      snake.setScale(sf::Vector2f(1,1));
 		    }
-		  snake.setTexture(textureHead);
-		  snake.setScale(sf::Vector2f(1,1));
-		}
-	      else if(var==2)
-		{
-		  if(!textureHead.loadFromFile("./images/luigiBas.png"))
+		  else if(score>=20 && score<40)
 		    {
-		      printf("L'image  ne marche pas\n");
-		      return -1;
+		      if(!textureHead.loadFromFile("./images/carapRge.png"))
+			{
+			  printf("L'image  ne marche pas\n");
+			  return -1;
+			}
+		      snake.setTexture(textureHead);
+		      snake.setScale(sf::Vector2f(1,1));
 		    }
-		  snake.setTexture(textureHead);
-		  snake.setScale(sf::Vector2f(1,1));
-		}
-	      else if(var==3)
-		{
-		  if(!textureHead.loadFromFile("./images/luigiGch.png"))
+		  else if(score>=40)
 		    {
-		      printf("L'image  ne marche pas\n");
-		      return -1;
+		      if(!textureHead.loadFromFile("./images/carapBle.png"))
+			{
+			  printf("L'image  ne marche pas\n");
+			  return -1;
+			}
+		      snake.setTexture(textureHead);
+		      snake.setScale(sf::Vector2f(1,1));
 		    }
-		  snake.setTexture(textureHead);
-		  snake.setScale(sf::Vector2f(1,1));
 		}
+	      snake.setPosition(s[i].x , s[i].y);
+	      window.draw(fruit);
+	      window.draw(snake);
 	    }
-	  else if(i==2)
-	    {
-	      if(score<20)
-		{
-		  if(!textureHead.loadFromFile("./images/carapVrt.png"))
-		    {
-		      printf("L'image  ne marche pas\n");
-		      return -1;
-		    }
-		  snake.setTexture(textureHead);
-		  snake.setScale(sf::Vector2f(1,1));
-		}
-	      else if(score>=20 && score<40)
-		{
-		  if(!textureHead.loadFromFile("./images/carapRge.png"))
-		    {
-		      printf("L'image  ne marche pas\n");
-		      return -1;
-		    }
-		  snake.setTexture(textureHead);
-		  snake.setScale(sf::Vector2f(1,1));
-		}
-	      else if(score>=40)
-		{
-		  if(!textureHead.loadFromFile("./images/carapBle.png"))
-		    {
-		      printf("L'image  ne marche pas\n");
-		      return -1;
-		    }
-		  snake.setTexture(textureHead);
-		  snake.setScale(sf::Vector2f(1,1));
-		}
-	    }
-	  snake.setPosition(s[i].x , s[i].y);
-	  window.draw(fruit);
-	  window.draw(snake);
-	}
-      window.display();	  
+	  window.display();
+	
     }
   return (0);
 }

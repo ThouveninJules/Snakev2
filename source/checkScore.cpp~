@@ -1,37 +1,63 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif, sf::Music *song)
+void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif, sf::Music *song, int *debut)
 {
   if(score<20)
     {
       texture->loadFromFile("images/LVL1.jpg");
       sprite->setTexture(*texture);
       *objectif=20;
-      if(!song->openFromFile("./audio/MusicLVL1.ogg"))
+      if(*debut==1)
 	{
-	  printf("La musique ne marche pas\n");
+	  *debut = 2;
+	  if(!song->openFromFile("./audio/MusicLVL1.ogg"))
+	    {
+	      printf("La musique ne marche pas\n");
+	    }
+	  else
+	    {
+	      printf("La musique marche\n");
+	      song->play();
+	    }
 	}
     }
   else if(score<40)
     {
-      if(!song->openFromFile("./audio/MusicLVL2.ogg"))
+      if(*debut==2)
 	{
-	  printf("La musique ne marche pas\n");
+	  *debut = 3;
+	  if(!song->openFromFile("./audio/MusicLVL2.ogg"))
+	    {
+	      printf("La musique ne marche pas\n");
+	    }
+	  else
+	    {
+	      song->play();
+	    }
 	}
       texture->loadFromFile("images/LVL2.png");
       sprite->setTexture(*texture);
       *objectif=40;
     }
   
-  else if(score==40)
+  else if(score<100)
     {
-      if(!song->openFromFile("./audio/MusicLVL3.ogg"))
+      if(*debut==3)
 	{
-	  printf("La musique ne marche pas\n");
+	  *debut = 4;
+	  if(!song->openFromFile("./audio/MusicLVL3.ogg"))
+	    {
+	      printf("La musique ne marche pas\n");
+	    }
+	  else
+	    {
+	      printf("le song fonctionne");
+	      song->play();
+	    }
 	}
       texture->loadFromFile("images/LVL3.jpg");
       sprite->setTexture(*texture);
 
-      *objectif = 100;
+      *objectif = 250;
     }
 }
