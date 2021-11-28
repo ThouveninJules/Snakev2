@@ -13,10 +13,27 @@ int		main()
   
 
   sf::RenderWindow window(sf::VideoMode(500,550),"LUIGI KART DELUXE TAH LES ANCIENS");
+  srand(time(NULL));
+  int size_snk = 20;//taille du snake
   sf::Sprite snake;
   snake.setPosition(250,250);
   sf::Sprite fruit;
-  fruit.setPosition(300,100);
+  struct food	       f;
+  
+  f.x = rand()% (500/size_snk);
+  f.y = rand()% (500/size_snk);
+  f.x = f.x*size_snk;
+  f.y = f.y*size_snk;
+
+  if(f.x == 0 && f.y == 0)
+    {
+      f.x = rand()% (500/size_snk);
+      f.y = rand()% (500/size_snk);
+      f.x = f.x*size_snk;
+      f.y = f.y*size_snk;
+    }
+  
+  fruit.setPosition(f.x,f.y);
   window.setFramerateLimit(10);
   int var = 1;
   int size = 2;
@@ -27,8 +44,6 @@ int		main()
   int debut = 0;
   char aff[50]="";
   char off[50]="";
-  int size_snk = 20;//taille du snake
-  srand(time(NULL));
   bool mort = false;
   sf::Texture texture, textureFruit, textureHead;
   sf::Music song;
@@ -54,13 +69,9 @@ int		main()
   obj.setPosition(255,500);
   
   struct snake	       s[100];
-  struct food	       f;
 
   s[0].x = 0;
   s[0].y = 0;
-  
-  f.x = 300;
-  f.y = 100;
 
   if(!menu.openFromFile("./audio/mscMenu.ogg"))
     {
