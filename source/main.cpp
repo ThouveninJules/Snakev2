@@ -2,6 +2,7 @@
 #include <SFML/Audio.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+//#include <stdin>
 #include <cstdlib>
 #include "../include/main.hpp"
 #include "../include/checkScore.hpp"
@@ -31,6 +32,9 @@ int		main()
   bool mort = false;
   sf::Texture texture, textureFruit, textureHead;
   sf::Music song;
+  sf::SoundBuffer buffer;
+  sf::Sound eat;
+  sf::Music menu;
   sf::Sprite sprite; 
   sf::Text text;
   sf::Text obj;
@@ -58,7 +62,23 @@ int		main()
   f.x = 300;
   f.y = 100;
 
-  if(!textureHead.loadFromFile("./images/champi.png"))
+  if(!menu.openFromFile("./audio/mscMenu.ogg"))
+    {
+      printf("La musique du menu ne marche pas\n");
+      return -1;
+    }
+  menu.setVolume(50);
+  menu.setLoop(true);
+
+  if(!buffer.loadFromFile("./audio/EatSound.ogg"))
+    {
+      printf("Le son manger ne marche pas\n");
+      return -1;
+    }
+  eat.setBuffer(buffer);
+  eat.setVolume(50);
+
+  if(!textureHead.loadFromFile("./images/luigi.png"))
     {
       printf("L'image  ne marche pas\n");
       return -1;
@@ -74,7 +94,7 @@ int		main()
   fruit.setTexture(textureFruit);
   fruit.setScale(sf::Vector2f(1,1));
 
-  CheckScore(&sprite, &texture,score, &objectif, &song, &debut);
+  CheckScore(&sprite, &texture,score, &objectif, &song, &debut, &speed);
   song.setVolume(50);
   song.setLoop(true);
   //song.play();
@@ -94,6 +114,8 @@ int		main()
       // GESTION MENU
       if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape) || debut == 0)
 	{
+	  song.pause();
+	  menu.play();
 	  if(debut == 0)
 	    {
 	      pause = 2;
@@ -151,19 +173,25 @@ int		main()
 	  switch(pause)
 	    {
 	    case 0 :
-	      CheckScore(&sprite, &texture, score, &objectif, &song, &debut);
+	      menu.pause();
+	      CheckScore(&sprite, &texture, score, &objectif, &song, &debut, &speed);
+	      song.play();
 	      break;
 	    case 1 :
 	      window.close();
 	      break;
 	    case 2 :
-	      CheckScore(&sprite, &texture, score, &objectif, &song, &debut);
+	      menu.pause();
+	      CheckScore(&sprite, &texture, score, &objectif, &song, &debut, &speed);
+	      song.play();
 	      break;
 	    case 3 :
 	      window.close();
 	      break;
 	    default :
-	      CheckScore(&sprite,&texture,score, &objectif, &song, &debut);
+	      menu.pause();
+	      CheckScore(&sprite,&texture,score, &objectif, &song, &debut, &speed);
+	      song.play();
 	      break;
 	    }
 	}
@@ -175,7 +203,7 @@ int		main()
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)&& var != 0){var = 2;}
       else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&& var != 1){ var = 3;}
 
-      CheckScore(&sprite,&texture,score, &objectif, &song, &debut);
+      CheckScore(&sprite,&texture,score, &objectif, &song, &debut, &speed);
       
       if (var == 0)
 	{
@@ -213,7 +241,9 @@ int		main()
 	}
       
       // Snake mange la pomme 
-      if(s[0].x == f.x && s[0].y == f.y )	{
+      if(s[0].x == f.x && s[0].y == f.y )
+	{
+	eat.play();
 	size++;
 	f.x = rand()% (500/size_snk);
 	f.y = rand()% (500/size_snk);
@@ -274,45 +304,8 @@ int		main()
       window.draw(obj);
 
       // Gestion Mort 
-      if (mort == true)
-	{
-	  song.openFromFile("./audio/MusicMort.ogg");
-	  song.setLoop(false);
-	  song.setVolume(50);
-	  song.play();
-	  printf("vous avez perdu \n");
-	  printf("Votre score est : %d\n", score);
-
-	  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
-	    {
-	      window.clear();
-	      texture.loadFromFile("./images/GameOver.png");
-	      sprite.setTexture(texture);
-	      window.draw(sprite);
-	      window.display();
-	      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-		{
-		  window.close();
-		}
-	    }
-	  CheckScore(&sprite,&texture,score, &objectif, &song, &debut);
-	  snake.setPosition(250,250);
-	  fruit.setPosition(300,100);
-	  var = 1;
-	  s[0].x = 0;
-	  s[0].y = 0;
-	  size = 2;
-	  speed = 10;
-	  score = 0;
-	  objectif = 20;
-	  pause = 0;
-	  debut = 0;
-	  f.x = 300;
-	  f.y = 100;
-	  size_snk = 20;
-	  mort = false;
-	}
-	  for (int i = 0 ; i < size ; i++)
+      if (mort == false)
+	for (int i = 0 ; i < size ; i++)
 	    {
 	      if(i==0)
 		{
@@ -394,8 +387,49 @@ int		main()
 	      window.draw(fruit);
 	      window.draw(snake);
 	    }
+      else
+	{
+	  song.openFromFile("./audio/MusicMort.ogg");
+	  song.setLoop(false);
+	  song.setVolume(50);
+	  song.play();
+	  menu.openFromFile("./audio/mscMenu.ogg");
+	  printf("vous avez perdu \n");
+	  printf("Votre score est : %d\n", score);
+
+	  while(!sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+	    {
+	      window.clear();
+	      texture.loadFromFile("./images/GameOver.png");
+	      sprite.setTexture(texture);
+	      window.draw(sprite);
+	      window.display();
+	      if(sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+		{
+		  window.close();
+		  return 0;
+		}
+	    }
+	  CheckScore(&sprite,&texture,score, &objectif, &song, &debut, &speed);
+	  snake.setPosition(250,250);
+	  fruit.setPosition(300,100);
+	  var = 1;
+	  s[0].x = 0;
+	  s[0].y = 0;
+	  size = 2;
+	  speed = 10;
+	  score = 0;
+	  objectif = 20;
+	  pause = 0;
+	  debut = 0;
+	  f.x = 300;
+	  f.y = 100;
+	  size_snk = 20;
+	  window.setFramerateLimit(speed);
+	  mort = false;
+	}
+	  window.setFramerateLimit(speed);
 	  window.display();
-	
     }
   return (0);
 }

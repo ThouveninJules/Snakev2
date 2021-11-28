@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif, sf::Music *song, int *debut)
+void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif, sf::Music *song, int *debut, int *speed)
 {
   if(score<20)
     {
@@ -64,16 +64,19 @@ void CheckScore(sf::Sprite *sprite,sf::Texture *texture,int score, int *objectif
     {
       if(*debut==4)
 	{
+	  printf("La vitesse est à : %d\n", *speed);
 	  *debut = 5;
-	  if(!song->openFromFile("./audio/MusicLVL3.ogg"))
+	  if(!song->openFromFile("./audio/mscLVL4.ogg"))
 	    {
 	      printf("La musique ne marche pas\n");
 	    }
 	  else
 	    {
-	      printf("le song fonctionne");
+	      //printf("le song fonctionne");
 	      song->play();
 	    }
+	  *speed = 50;
+	  printf("La vitesse change : %d\n", *speed);
 	}
       texture->loadFromFile("images/LVL4.png");
       sprite->setTexture(*texture);
